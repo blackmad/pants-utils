@@ -43,12 +43,11 @@ def compile_main():
 def main(default_goal='compile'):
   base_dir = find_file_above_file('pants.ini', os.getcwd(), '/')
   print 'base dir: ' + base_dir
-  #commands.getstatusoutput('git rev-parse --show-toplevel')[1]
 
   files = sys.argv[1:]
 
   if len(files) == 0:
-    changed_files_cmd = 'git diff --name-only --cached $(git rev-list --boundary ...master | grep ^- | cut -c2-) | grep scala$'
+    changed_files_cmd = 'git diff --name-only --cached $(git rev-list --boundary ...master | grep ^- | cut -c2- | tail -n 1) | grep scala$'
     files = commands.getstatusoutput(changed_files_cmd)[1].split('\n')
 
   if len(files) == 0:
